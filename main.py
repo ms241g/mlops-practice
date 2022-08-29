@@ -4,7 +4,6 @@
 # ## Heart Disease Inference
 # In this script, we will try to look at
 # the inference part of the heart disease classification solution
-
 # ### Import Modules
 import warnings
 warnings.filterwarnings("ignore")
