@@ -13,6 +13,7 @@ from make_dataset import read_params
 from metrics_visualize import *
 import argparse
 import joblib
+from joblib import dump
 import json
 ##import mlflow
 
