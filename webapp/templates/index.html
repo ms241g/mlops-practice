@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% block title %}
+WineQuality
+{% endblock title %}
+
+
+{% block custom_css %}
+<!-- Custom CSS -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+{% endblock custom_css %}
+
+
+{% block body %}
+<!-- nav bar -->
+
+<nav class="navbar navbar-expand-lg navbar-light shadow fixed-top" style="background-color: #e3f2fd;">
+    <a class="navbar-brand" href="/">Heart Disease Prediction</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="https://github.com/ms241g/mlops_practice">source code</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div>
+    <!-- nav bar ends -->
+
+    <div class="container-fluid masthead">
+        <br>
+        <br>
+        <br>
+        <br>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <form method="POST">
+                        <!-- Input block-->
+                        <div class="form-group">
+                            <!--suppress XmlInvalidId -->
+                            <label for="translation">
+                                <blockquote class="blockquote">
+                                    <p class="mb-2">Enter the details as indicated:</p>
+                                </blockquote>
+                            </label>
+                            <textarea class="form-control" name="Age" rows="1"
+                                placeholder="Age expected range 10 to 100"></textarea>
+                            <textarea class="form-control" name="Sex" rows="1"
+                                placeholder="Sex (0 for F / 1 for M ) expected range 0 or 1"></textarea>
+                            <textarea class="form-control" name="chest_pain_type" rows="1"
+                                placeholder="chest pain expected range 0 to 5"></textarea>
+                            <textarea class="form-control" name="resting_bp" rows="1"
+                                placeholder="resting BP expected range 50 to 200"></textarea>
+                            <textarea class="form-control" name="cholestoral" rows="1"
+                                placeholder="cholestoral expected range 50 to 350"></textarea>
+                            <textarea class="form-control" name="fasting_blood_sugar" rows="1"
+                                placeholder="fasting_blood_sugar expected range 0 or 1"></textarea>
+                            <textarea class="form-control" name="restecg" rows="1"
+                                placeholder="restecg expected range 0 or 1"></textarea>
+                            <textarea class="form-control" name="max_hr" rows="1"
+                                placeholder="Heart Rate expected range 50 to 200"></textarea>
+                            <textarea class="form-control" name="exang" rows="1"
+                                placeholder="exang expected range 0 or 1"></textarea>
+                            <textarea class="form-control" name="oldpeak" rows="1"
+                                placeholder="oldpeak expected range 0.00 to 10.0"></textarea>
+                            <textarea class="form-control" name="slope" rows="1"
+                                placeholder="slope expected range 0 to 5"></textarea>
+                            <textarea class="form-control" name="num_major_vessels" rows="1"
+                                placeholder="num_major_vessels expected range 0 to 8"></textarea>
+                            <textarea class="form-control" name="thal" rows="1"
+                                placeholder="thal expected range 1 to 3"></textarea>
+                        </div>
+
+                        <!-- Select output language here. -->
+                        <div class="form-group">
+                        </div>
+                        <button type="submit" class="btn btn-primary mb-2">Predict</button></br>
+                        </br>
+                    </form>
+                    <!-- Translated text returned by the Translate API is rendered here. -->
+                </div>
+                <div class="col">
+                    <form>
+                        <div class="form-group">
+                            <!--suppress XmlInvalidId -->
+                            <label for="translation-result">
+
+                                <blockquote class="blockquote">
+                                    <p class="mb-2">Prediction:</p>
+                                </blockquote>
+
+                            </label>
+                            <textarea readonly class="form-control" id="exTextarea" rows="5">{{ response }}</textarea>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        {% endblock body %}
+
+        {% block custom_js %}
+        <!-- Custom JS -->
+        <script src="{{ url_for('static', filename='script/index.js') }}"></script>
+        {% endblock custom_js %}
+    </div>
+</div>
