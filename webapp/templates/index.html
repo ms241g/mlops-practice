@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-WineQuality
+Heart Disease Prediction
 {% endblock title %}
 
 
@@ -51,12 +51,12 @@ WineQuality
                                     <p class="mb-2">Enter the details as indicated:</p>
                                 </blockquote>
                             </label>
-                            <textarea class="form-control" name="Age" rows="1"
+                            <textarea class="form-control" name="age" rows="1"
                                 placeholder="Age expected range 10 to 100"></textarea>
-                            <textarea class="form-control" name="Sex" rows="1"
-                                placeholder="Sex (0 for F / 1 for M ) expected range 0 or 1"></textarea>
+                            <textarea class="form-control" name="sex" rows="1"
+                                placeholder="sex (0 for F / 1 for M ) expected range 0 or 1"></textarea>
                             <textarea class="form-control" name="chest_pain_type" rows="1"
-                                placeholder="chest pain expected range 0 to 5"></textarea>
+                                placeholder="chest pain expected range 0 to 3"></textarea>
                             <textarea class="form-control" name="resting_bp" rows="1"
                                 placeholder="resting BP expected range 50 to 200"></textarea>
                             <textarea class="form-control" name="cholestoral" rows="1"
@@ -64,7 +64,7 @@ WineQuality
                             <textarea class="form-control" name="fasting_blood_sugar" rows="1"
                                 placeholder="fasting_blood_sugar expected range 0 or 1"></textarea>
                             <textarea class="form-control" name="restecg" rows="1"
-                                placeholder="restecg expected range 0 or 1"></textarea>
+                                placeholder="restecg expected range 0 or 2"></textarea>
                             <textarea class="form-control" name="max_hr" rows="1"
                                 placeholder="Heart Rate expected range 50 to 200"></textarea>
                             <textarea class="form-control" name="exang" rows="1"
@@ -72,11 +72,11 @@ WineQuality
                             <textarea class="form-control" name="oldpeak" rows="1"
                                 placeholder="oldpeak expected range 0.00 to 10.0"></textarea>
                             <textarea class="form-control" name="slope" rows="1"
-                                placeholder="slope expected range 0 to 5"></textarea>
+                                placeholder="slope expected range 0 to 2"></textarea>
                             <textarea class="form-control" name="num_major_vessels" rows="1"
                                 placeholder="num_major_vessels expected range 0 to 8"></textarea>
                             <textarea class="form-control" name="thal" rows="1"
-                                placeholder="thal expected range 1 to 3"></textarea>
+                                placeholder="thal expected range 0 to 3"></textarea>
                         </div>
 
                         <!-- Select output language here. -->

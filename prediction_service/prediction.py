@@ -6,6 +6,8 @@
 # the inference part of the heart disease classification solution
 
 # ### Import Modules
+from sklearn.preprocessing import MinMaxScaler
+import pandas as pd
 import yaml
 import os
 import json
@@ -15,7 +17,7 @@ import numpy as np
 params_path = "params.yaml"
 schema_path = os.path.join("prediction_service", "schema_in.json")
 
-#print('schema_path', schema_path)
+print('schema_path', schema_path)
 
 
 class NotInRange(Exception):
@@ -36,16 +38,123 @@ def read_params(config_path):
     return config
 
 
-def predict(data):
+# ### Apply Same Pre-processing
+
+# apply same pre-processing and feature engineering techniques
+# as applied during the training process
+
+
+def encode_features(df, features):
+    '''
+    Method for one-hot encoding all selected categorical fields
+    Input: The method takes pandas dataframe and
+    list of the feature names as input
+    Output: Returns a dataframe with one-hot encoded features
+    Example usage:
+    one_hot_encoded_df = encode_features(dataframe, list_features_to_encode)
+    '''
+    # Implement these steps to prevent dimension mismatch during inference
+    encoded_df = pd.DataFrame(columns=['age', 'sex', 'resting_bp',
+                                       'cholestoral', 'fasting_blood_sugar',
+                                       'max_hr', 'exang', 'oldpeak',
+                                       'num_major_vessels', 'thal_0', 'thal_1',
+                                       'thal_2', 'thal_3', 'slope_0',
+                                       'slope_1', 'slope_2',
+                                       'chest_pain_type_0',
+                                       'chest_pain_type_1',
+                                       'chest_pain_type_2',
+                                       'chest_pain_type_3', 'restecg_0',
+                                       'restecg_1', 'restecg_2'])
+    placeholder_df = pd.DataFrame()
+    
+    #df= df.tolist()
+    #print(df)
+    original_df = pd.DataFrame(data=df, columns=['age', 'sex', 'chest_pain_type', 'resting_bp', 'cholestoral',
+                'fasting_blood_sugar', 'restecg', 'max_hr', 'exang', 'oldpeak', 'slope',
+                'num_major_vessels', 'thal'])
+
+    #print(original_df)
+    # One-Hot Encoding using get_dummies for the specified categorical features
+    for f in features:
+        if(f in original_df.columns):
+            encoded = pd.get_dummies(original_df[f])
+            encoded = encoded.add_prefix(f + '_')
+            placeholder_df = pd.concat([placeholder_df, encoded], axis=1)
+        else:
+            print('Feature not found')
+            return original_df
+
+    # Implement these steps to prevent dimension mismatch during inference
+    for feature in encoded_df.columns:
+        if feature in original_df.columns:
+            encoded_df[feature] = original_df[feature]
+        if feature in placeholder_df.columns:
+            encoded_df[feature] = placeholder_df[feature]
+    # fill all null values
+    encoded_df.fillna(0, inplace=True)
+    #print('encoded_df', encoded_df)
+
+    return encoded_df
+
+
+def normalize_data(df):
+    '''
+    Normalize data using Min-Max Scaler
+    Input: The method takes pandas dataframe as input
+    Output: Returns a dataframe with normalized features
+    Example usage:
+    normalized_df = normalize_data(df)
+    '''
+    val = df.values
+    #val = 
+    print(val)
+    #min_max_normalizer = MinMaxScaler()
+    #norm_val = min_max_normalizer.fit_transform(val)
+    #df2 = pd.DataFrame(norm_val)
+    df2 = pd.DataFrame(val)
+
+    #print('df2', df2)
+    return df2
+
+
+def apply_pre_processing(data):
+    '''
+    Normalize data using Min-Max Scaler
+    Input: The method takes pandas dataframe as input
+    Output: Returns a dataframe with normalized features
+    Example usage:
+    normalized_df = normalize_data(df)
+    '''
+    features_to_encode = ['thal', 'slope', 'chest_pain_type', 'restecg']
+    print('inside pre process')
+    encoded = encode_features(data, features_to_encode)
+    #print(encoded)
+    processed_data = normalize_data(encoded)
+    #print(processed_data)
+    # Please note this is fabricated inference data,
+    # so just taking a small sample size
+    return processed_data
+
+
+
+def predict(processed_inference_data):
     config = read_params(params_path)
     model_dir_path = config["webapp_model_dir"]
+    scaler_dir_path = config["scaler_dir"]
     model= joblib.load(model_dir_path)
-    prediction= model.predict(data).tolist()[0]
+    scaler= joblib.load(scaler_dir_path)
+    processed_inference_data= scaler.transform(processed_inference_data)
+    print(processed_inference_data)
+    #processed_inference_data= scaler.min_max_normalizer(processed_inference_data)
+    prediction= model.predict(processed_inference_data)
+    print(prediction[0])
 
     try:
-        if prediction == 1:
+        if prediction[0] == 1:
+            print('High chance of heart disease')
             result= 'High chance of heart disease'
-        elif prediction == 0:
+            return result
+        elif prediction[0] == 0:
             result = 'You have a healthy heart'
             return result
         else:
@@ -78,6 +187,7 @@ def validate_input(dict_request):
             raise NotInRange
 
     for col, val in dict_request.items():
+        #print(col)
         _validate_cols(col)
         _validate_values(col, val)
 
@@ -88,7 +198,9 @@ def form_response(dict_request):
     if validate_input(dict_request):
         data = dict_request.values()
         data = [list(map(float, data))]
-        response = predict(data)
+        #print(data)
+        processed_inference_data = apply_pre_processing(data)
+        response = predict(processed_inference_data)
         return response
 
 
@@ -96,7 +208,9 @@ def api_response(dict_request):
     try:
         if validate_input(dict_request):
             data = np.array([list(dict_request.values())])
-            response = predict(data)
+            processed_inference_data = apply_pre_processing(data)
+            print(processed_inference_data)
+            response = predict(processed_inference_data)
             response = {"response": response}
             return response
 

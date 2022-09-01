@@ -7,6 +7,7 @@ from sklearn import preprocessing
 from sklearn.model_selection import train_test_split
 from make_dataset import get_data, read_params
 from constants import * 
+import joblib
 
 
 # apply same pre-processing and feature engineering techniques
@@ -56,7 +57,10 @@ def normalize_data(df):
     df_normalize= df.drop(['target'], axis= 1)
     values = df_normalize.values
     min_max_normalizer = preprocessing.MinMaxScaler()
-    norm_val = min_max_normalizer.fit_transform(values)
+    #norm_val = min_max_normalizer.fit_transform(values)
+    min_max_normalizer.fit(values)
+    joblib.dump(min_max_normalizer, 'scaler.save')
+    norm_val= min_max_normalizer.transform(values)
     norm_df = pd.DataFrame(norm_val)
     final_df= pd.concat([norm_df, target_col], axis=1)
     return final_df

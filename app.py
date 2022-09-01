@@ -20,6 +20,7 @@ def index():
         try:
             if request.form:
                 data_dict = dict(request.form)
+                #print(data_dict)
                 response = prediction.form_response(data_dict)
                 return render_template("index.html", response=response)
 

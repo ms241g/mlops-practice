@@ -1,0 +1,54 @@
+{
+    "age": {
+        "min": 10,
+        "max": 100
+    },
+    "sex": {
+        "min": 0,
+        "max": 1
+    },
+    "chest_pain_type": {
+        "min": 0,
+        "max": 5
+    },
+    "resting_bp": {
+        "min": 50,
+        "max": 200
+    },
+    "cholestoral": {
+        "min": 50,
+        "max": 350
+    },
+    "fasting_blood_sugar": {
+        "min": 0,
+        "max": 1
+    },
+    "restecg": {
+        "min": 0,
+        "max": 2
+    },
+    "max_hr": {
+        "min": 50,
+        "max": 200
+    },
+    "exang": {
+        "min": 0,
+        "max": 1
+    },
+    "oldpeak": {
+        "min": 0,
+        "max": 10
+    },
+    "slope": {
+        "min": 0,
+        "max": 2
+    },
+    "num_major_vessels": {
+        "min": 0,
+        "max": 8
+    },
+    "thal": {
+        "min": 0,
+        "max": 3
+    }
+}

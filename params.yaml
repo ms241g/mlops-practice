@@ -32,6 +32,8 @@ reports:
 
 webapp_model_dir: prediction_service/models/model1_adaboost.joblib
 
+scaler_dir: prediction_service/models/scaler.save 
+
 mlflow_config:
   artifacts_dir: artifacts
   experiment_name: ElasticNet wine regression
